@@ -1,0 +1,13 @@
+---
+language: ruby
+ruby: "latest"
+addons:
+  apt:
+    packages:
+    - libssl-dev
+    - libpam-dev
+script: script/cibuild
+# Only build for pushes to and pr's against master
+branches:
+  only:
+    - master

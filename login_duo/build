@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+OUT=$(pwd)/out
+
+echo '--> Installing dependencies'
+# note - done in .travis.yml for package infra
+echo '--> Downloading latest login-duo'
+curl -sLO /tmp/duo_unix.tgz https://dl.duosecurity.com/duo_unix-latest.tar.gz
+echo '--> Extracting login-duo'
+cd /tmp && tar -xvf duo_unix-latest.tar.gz
+echo '--> Building login-duo'
+cd duo_unix*
+./configure --prefix=/usr
+make
+echo '--> Staging login-duo'
+mkdir /tmp/login_duo_install
+make install DESTDIR=/tmp/login_duo_install
+echo '--> Building deb package'
+cd $OUT
+VERSION=$(grep 'PACKAGE_VERSION =' Makefile | awk -F " = " '{print $2}')
+fpm -s dir -t deb -n login-duo -v $VERSION -C /tmp/installdir \
+  -p login-duo_VERSION_ARCH.deb \
+  -d "libpam0g > 0" \
+  -d "libssl1.0.0 >= 1.0.0" \
+  etc usr/include usr/lib usr/sbin usr/share
