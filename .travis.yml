@@ -1,6 +1,5 @@
 ---
 language: ruby
-ruby: "latest"
 addons:
   apt:
     packages:
