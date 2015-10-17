@@ -4,6 +4,9 @@ addons:
     packages:
     - libssl-dev
     - libpam-dev
+    - cmake
+    - libusb-1.0-0-dev
+    - libusb-1.0-0
 script:
   - script/cibuild
 branches:
