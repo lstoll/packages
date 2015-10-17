@@ -5,10 +5,8 @@ set -e
 OUT=$(pwd)/out
 mkdir -p $OUT
 
-
-
 echo '--> Installing dependencies'
 # note - done in .travis.yml for package infra
 echo '--> Building deb from pip for home-assistant'
 cd $OUT
-fpm -s python -t deb --python-package-name-prefix python26 homeassistant
+bundle exec fpm -s python -t deb --python-package-name-prefix python26 homeassistant
