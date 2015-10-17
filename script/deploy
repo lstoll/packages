@@ -8,4 +8,4 @@ if [ -z "$PACKAGECLOUD_TOKEN" ]; then
 fi
 
 gem install package_cloud
-package_cloud push lstoll/packages/ubuntu/trust out/*.deb
+package_cloud push lstoll/packages/ubuntu/trusty out/*.deb
