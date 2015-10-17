@@ -8,4 +8,9 @@ if [ -z "$PACKAGECLOUD_TOKEN" ]; then
 fi
 
 gem install package_cloud
-package_cloud push lstoll/packages/ubuntu/trusty out/*.deb
+package_cloud push lstoll/packages/ubuntu/trusty out/*.deb | tee /tmp/pkgout
+if [ $? != 0 ]; then
+    if ! grep -q "filename: has already been taken" /tmp/pkgout; then
+	exit 1
+    fi
+fi
