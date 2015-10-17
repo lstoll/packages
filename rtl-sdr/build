@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+VERSION=0.5.3
+
+OUT=$(pwd)/out
+mkdir -p $OUT
+
+echo '--> Installing dependencies'
+# note - done in .travis.yml for package infra
+echo "--> Downloading rtl-sdr $VERSION"
+curl -sLo /tmp/rtlsdr.tgz https://github.com/steve-m/librtlsdr/archive/v${VERSION}.tar.gz
+echo '--> Extracting rtl-sdr'
+cd /tmp && tar -xvf rtlsdr.tgz
+echo '--> Building rtl-sdr'
+cd librtlsdr*
+mkdir build
+cd build
+cmake ../ -DINSTALL_UDEV_RULES=ON -DCMAKE_INSTALL_PREFIX:PATH=/usr
+make
+
+echo '--> Staging rtl-sdr'
+mkdir -p /tmp/rtlsdr_install
+make install DESTDIR=/tmp/rtlsdr_install
+echo '--> Building deb package'
+cd $OUT
+bundle exec fpm -s dir -t deb -n librtlsdr -v $VERSION -C /tmp/rtlsdr_install \
+  -p librtlsdr_VERSION_ARCH.deb \
+  -d "libusb-1.0-0 > 0" \
+  etc usr/include usr/lib usr/bin
