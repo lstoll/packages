@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+if [ ! -z "$PACKAGECLOUD_TOKEN" ]; then
+    echo "--> PACKAGECLOUD_TOKEN is unset";
+    exit 1
+fi
+
+gem install package_cloud
+package_cloud push lstoll/packages/ubuntu/trust out/*.deb
