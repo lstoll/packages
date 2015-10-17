@@ -13,4 +13,4 @@ deploy:
   provider: script
   script: script/deploy
   on:
-    branch: fix_deploy
+    branch: master
