@@ -12,9 +12,9 @@ mkdir -p $OUT
 echo "--> Downloading $NAME $VERSION"
 curl -sLo /tmp/$NAME.tgz $URL
 echo "--> Extracting $NAME"
-cd /tmp && tar -xvf $NAME.tgz
+mkdir -p /tmp/rtlamr
+cd /tmp/rtlamr && tar -xvf ../$NAME.tgz
 echo '--> Building deb package'
-cd $NAME*
 mkdir -p usr/bin
 mv rtlamr usr/bin/
 bundle exec fpm -s dir -t deb -n $NAME -v $VERSION -C . \
