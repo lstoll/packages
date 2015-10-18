@@ -17,7 +17,7 @@ cd /tmp/rtlamr && tar -xvf ../$NAME.tgz
 echo '--> Building deb package'
 mkdir -p usr/bin
 mv rtlamr usr/bin/
-rm -f *
+rm * || true #whatever
 cd $OUT
 bundle exec fpm -s dir -t deb -n $NAME -v $VERSION -C /tmp/rtlamr \
   -p ${NAME}_VERSION_ARCH.deb \
