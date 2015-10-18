@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+VERSION=0.6.2
+URL=https://github.com/bemasher/rtlamr/releases/download/${VERSION}/rtlamr_linux_amd64.tar.gz
+NAME=rtlamr
+
+OUT=$(pwd)/out
+mkdir -p $OUT
+
+echo "--> Downloading $NAME $VERSION"
+curl -sLo /tmp/$NAME.tgz $URL
+echo "--> Extracting $NAME"
+cd /tmp && tar -xvf $NAME.tgz
+echo '--> Building deb package'
+cd $NAME*
+mkdir -p usr/bin
+mv rtlamr usr/bin/
+bundle exec fpm -s dir -t deb -n rtlamr -v $VERSION -C /tmp/rtlsdr_install \
+  -p rtlamr_VERSION_ARCH.deb \
+  -d "librtlsdr > 0" \
+  usr/bin
