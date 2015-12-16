@@ -9,3 +9,4 @@ Build packages of things. All deployed to PackageCloud https://packagecloud.io/l
 * login_duo: https://www.duosecurity.com/docs/duounix
 * rtl-sdr(librtlsdr): http://sdr.osmocom.org/trac/wiki/rtl-sdr
 * rtlamr: https://github.com/bemasher/rtlamr
+* reredirect: https://github.com/jerome-pouiller/reredirect

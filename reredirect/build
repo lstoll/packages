@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+VERSION=0.1.1
+URL=https://github.com/jerome-pouiller/reredirect/archive/master.tar.gz
+NAME=reredirect
+
+OUT=$(pwd)/out
+mkdir -p $OUT
+
+rm -fr /tmp/$NAME*
+
+echo "--> Downloading $NAME $VERSION"
+curl -sLo /tmp/$NAME.tgz $URL
+echo "--> Extracting $NAME"
+mkdir -p /tmp/$NAME
+cd /tmp/$NAME && tar -xvf ../$NAME.tgz
+echo "--> Building $NAME"
+mv $NAME*/* .
+make
+echo '--> Building deb package'
+mkdir -p usr/bin
+mv $NAME usr/bin/
+rm * || true #whatever
+cd $OUT
+bundle exec fpm -s dir -t deb -n $NAME -v $VERSION -C /tmp/$NAME \
+  -p ${NAME}_VERSION_ARCH.deb \
+  usr/bin
